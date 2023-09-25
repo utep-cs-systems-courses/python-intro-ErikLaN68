@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 #Takes the file to be read as first parameter and file to save to
+# Missing s and need to pull words that have - between them
 import os
 from sys import argv, stderr, exit
 
@@ -10,32 +11,37 @@ if(len(argv) != 3):
 
 inputFile = open(argv[1], "r")
 inputString = inputFile.readlines()
-print(len(inputString))
+print("Number of lines in file " + str(len(inputString)))
 
 wordDict = dict()
 for line in inputString:
     tokens = line.split(" ")
     for word in tokens:
-        word = word.strip()
-        if not word.isalnum():
-            word = word.replace(".","").replace(",","").replace(";","")
-            if word in wordDict:
+        word = word.lower().strip()
+        if not word.isalpha():
+            word = word.replace(".","").replace(",","").replace(";","").replace(":","")
+            if word in wordDict and len(word) != 0:
                 count = wordDict.get(word)
                 count = count + 1
                 wordDict.update({word: count})
             else:
-                wordDict.update({word: 1})
-        elif word in wordDict:
+                if len(word) != 0:
+                    wordDict.update({word: 1})
+        elif word in wordDict and len(word) != 0:
             count = wordDict.get(word)
             count = count + 1
             wordDict.update({word: count})
         else:
-            if word in wordDict:
+            if len(word) != 0:
                 wordDict.update({word: 1})
             
-print(len(wordDict))
+print("Words in Dict " + str(len(wordDict)))
+keyList = list(wordDict.keys())
+keyList.sort()
+
 outputFile = open(argv[2], "w")
-for key, value in wordDict.items():
-    outputFile.write(key + " " + str(value) + "\n")
+
+for key in keyList:
+    outputFile.write(key + " " + str(wordDict.get(key)) + "\n")
     
 print(wordDict.get(""))
