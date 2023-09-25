@@ -16,8 +16,9 @@ wordDict = dict()
 for line in inputString:
     tokens = line.split(" ")
     for word in tokens:
+        word = word.strip()
         if not word.isalnum():
-            word = word.replace(".","").replace(",","").replace("\n","")
+            word = word.replace(".","").replace(",","").replace(";","")
             if word in wordDict:
                 count = wordDict.get(word)
                 count = count + 1
@@ -29,9 +30,12 @@ for line in inputString:
             count = count + 1
             wordDict.update({word: count})
         else:
-            wordDict.update({word: 1})
+            if word in wordDict:
+                wordDict.update({word: 1})
             
-
+print(len(wordDict))
 outputFile = open(argv[2], "w")
 for key, value in wordDict.items():
     outputFile.write(key + " " + str(value) + "\n")
+    
+print(wordDict.get(""))
