@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+#Takes the file to be read as first parameter and file to save to
 import os
 from sys import argv, stderr, exit
 
@@ -12,19 +13,25 @@ inputString = inputFile.readlines()
 print(len(inputString))
 
 wordDict = dict()
-for str in inputString:
-    tokens = str.split(" ")
+for line in inputString:
+    tokens = line.split(" ")
     for word in tokens:
         if not word.isalnum():
-            for char in word:
-                if char.isalnum() == False:
-                    print(char)
-                    word.replace(char," ")
-        if word in wordDict:
+            word = word.replace(".","").replace(",","").replace("\n","")
+            if word in wordDict:
+                count = wordDict.get(word)
+                count = count + 1
+                wordDict.update({word: count})
+            else:
+                wordDict.update({word: 1})
+        elif word in wordDict:
             count = wordDict.get(word)
             count = count + 1
             wordDict.update({word: count})
         else:
             wordDict.update({word: 1})
             
-print(wordDict.get("WHEN"))
+
+outputFile = open(argv[2], "w")
+for key, value in wordDict.items():
+    outputFile.write(key + " " + str(value) + "\n")
