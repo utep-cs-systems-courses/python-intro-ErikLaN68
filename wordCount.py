@@ -44,6 +44,10 @@ for line in inputString:
             tempWord = word.split("'")
             for w in tempWord:
                 addToDict(w)
+        elif "\"" in word:
+            tempWord = word.split("\"")
+            for w in tempWord:
+                addToDict(w)
         else:
             addToDict(word)
             
