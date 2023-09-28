@@ -6,6 +6,7 @@ import os
 import re
 from sys import argv, stderr, exit
 
+#The decoding of the file gives you an array of chars and they have to be formed into a word
 def getTokens(input):
     curWord = ""
     wordList = []
@@ -24,26 +25,17 @@ if(len(argv) != 3):
 # inputFile = open(argv[1], "r")
 # inputString = inputFile.readlines()
 inputFile = os.open(argv[1], os.O_RDONLY)
-print(inputFile)
 inputString = os.read(inputFile,os.path.getsize(argv[1]))
-print("Number of lines in file " + str(len(inputString)))
-print(inputString)
 inputString = inputString.decode()
-print("Number of lines in file " + str(len(inputString)))
-print(inputString)
 wordList = getTokens(inputString)
-print(wordList[0])
 
 wordDict = dict()
-for line in wordList:
-    line = line.lower().strip()
-    #using the \W+ splits the input line on all punctuation and whitespace
-    tokens = re.split('\s',line)
-    for word in tokens:
-        if word in wordDict and len(word) != 0:
-            wordDict.update({word: wordDict.get(word)+1})
-        elif len(word) != 0:
-            wordDict.update({word: 1})
+for word in wordList:
+    word = word.lower().strip()
+    if word in wordDict and len(word) != 0:
+        wordDict.update({word: wordDict.get(word)+1})
+    elif len(word) != 0:
+        wordDict.update({word: 1})
 
 keyList = list(wordDict.keys())
 keyList.sort()
