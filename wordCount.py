@@ -1,7 +1,5 @@
 #! /usr/bin/env python3
 
-#Takes the file to be read as first parameter and file to save to
-# Missing s and need to pull words that have - between them
 import os
 import re
 from sys import argv, stderr, exit
