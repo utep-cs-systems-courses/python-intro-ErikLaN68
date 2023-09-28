@@ -18,12 +18,15 @@ def getTokens(input):
             curWord = ""
     return wordList
 
-if(len(argv) != 3):
+#Checks that the program has 2 file inputs
+if len(argv) != 3 :
     print("Have to enter ./wordCount.py followed by input.txt and output.txt")
     exit()
-
-# inputFile = open(argv[1], "r")
-# inputString = inputFile.readlines()
+#Checks that input file exist
+if not os.path.exists(argv[1]):
+    print('Inpute file can not be found')
+    exit()
+    
 inputFile = os.open(argv[1], os.O_RDONLY)
 inputString = os.read(inputFile,os.path.getsize(argv[1]))
 inputString = inputString.decode()
@@ -40,7 +43,13 @@ for word in wordList:
 keyList = list(wordDict.keys())
 keyList.sort()
 
-outputFile = open(argv[2], "w")
+# if not os.path.exists(argv[2]):
+#     outFile = os.make()
+
+outFile = os.open(argv[2], os.O_WRONLY | os.O_CREAT)
 
 for key in keyList:
-    outputFile.write(key + " " + str(wordDict.get(key)) + "\n")
+    writeStr = key + " " + str(wordDict.get(key)) + "\n"
+    os.write(outFile,writeStr.encode())
+    
+print('Words in input file have counted and saved in ' + argv[2])
